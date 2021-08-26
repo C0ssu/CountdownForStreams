@@ -1,0 +1,133 @@
+﻿<Window x:Class="CountDown.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CountDown"
+        mc:Ignorable="d"
+        Title="CountDown" Height="450" Width="800"
+        Loaded="Window_Loaded"
+        ResizeMode="NoResize"
+        >
+
+    <Grid Focusable="True" MouseDown="ParentGrid_MouseDown" Loaded="ParentGrid_Loaded" Name="ParentGrid" Background="#141d26">
+        <!-- Definitions -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.40*"/>
+            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!-- Definitions END -->
+
+        <!-- Upper Bar -->
+        <Rectangle Grid.Row="0" Grid.Column="1"  Fill="#243447"/>
+        <Rectangle Grid.Row="0" Grid.Column="2" Fill="#243447"/>
+        <Rectangle Grid.Row="0" Fill="#243447"/>
+        <!-- Upper Bar END -->
+
+        <!-- Header Text -->
+        <Label Content="Countdown Timer" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" Foreground="#c51f5d">
+            <Label.BitmapEffect>
+                <DropShadowBitmapEffect Color="#141d26"/>
+            </Label.BitmapEffect>
+        </Label>
+        <!-- Header Text End -->
+
+        <!-- Timer -->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2">
+            <Label x:Name="timer_Countdown" Content="00:00:00" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#c51f5d"/>
+            <Label x:Name="Timer_Format" Content="HH:MM:SS" HorizontalAlignment="Center" FontWeight="DemiBold" Foreground="#767D92"/>
+        </StackPanel>
+
+        <!-- Timer End -->
+
+        <!-- Timer Settings -->
+        <Grid Grid.Row="3" Grid.Column="1">
+            <!-- Definitions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!-- Formats -->
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                <TextBlock FontSize="15" FontWeight="DemiBold" Margin="0 10" Foreground="#c51f5d">Format Settings
+                    <TextBlock.BitmapEffect>
+                        <DropShadowBitmapEffect Color="Black"/>
+                    </TextBlock.BitmapEffect>
+                </TextBlock>
+                <TextBlock FontSize="12" Foreground="#767D92" FontWeight="DemiBold">Timer Length
+                    <TextBlock.BitmapEffect>
+                        <DropShadowBitmapEffect Color="Black"/>
+                    </TextBlock.BitmapEffect>
+                </TextBlock>
+                <!-- Time Format-->
+                <ComboBox x:Name="comb_FormatSelection" Padding="2" SelectedIndex="2" SelectionChanged="comb_FormatSelection_SelectionChanged"  Foreground="#767D92" Background="#243447" FontWeight="DemiBold">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem">
+                            <Setter Property="Background" Value="#243447"/>
+                            <Setter Property="BorderBrush" Value="#243447"/>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                    <ComboBoxItem Content="Seconds"/>
+                    <ComboBoxItem Content="Minutes"/>
+                    <ComboBoxItem Content="Hours"/>
+                    <ComboBoxItem Content="Days"/>
+                    <ComboBoxItem Content="Weeks"/>
+                    <ComboBoxItem Content="Months"/>
+                </ComboBox>
+                <!-- Time Format END -->
+            </StackPanel>
+            <!-- Formats END-->
+            <!-- Input -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!-- Input Text-->
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="13" FontWeight="DemiBold" Foreground="#c51f5d">Set Timer
+                    <TextBlock.BitmapEffect>
+                        <DropShadowBitmapEffect Color="Black"/>
+                    </TextBlock.BitmapEffect>
+                </TextBlock>
+                <!-- Input Text END-->
+                <!-- Input Bar -->
+                <TextBlock x:Name="hintText" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" TextAlignment="Center" Foreground="#767D92" Background="#2F4562" FontWeight="DemiBold"> HH:MM:SS</TextBlock>
+                <TextBox x:Name="InputText" GotFocus="InputText_GotFocus" LostFocus="InputText_LostFocus" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Foreground="#767D92"  Background="Transparent"/>
+                <!-- Input Bar END -->
+                <!-- Buttons to intereact with the timer -->
+                <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                    <Button x:Name="bt_start" Click="Start_Click" Width="90" Background="#152642" Foreground="#767D92" FontWeight="DemiBold" BorderThickness="0" Content="Start/Continue"></Button>
+
+                    <Button x:Name="bt_stop" Click="Stop_Click" Margin="0 2" IsEnabled="False" Background="#152642" Foreground="#767D92">Stop</Button>
+                    <Button x:Name="bt_reset" Click="Reset_Click" Background="#152642" Foreground="#767D92" FontWeight="DemiBold" BorderThickness="0">Reset</Button>
+                </StackPanel>
+            </Grid>
+            <!-- Input END-->
+        </Grid>
+        <!-- Timer Settings END -->
+        <Grid Grid.Row="4" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Click="Button_InputLog_Click" x:Name="Button_InputLog" Grid.Column="1" Grid.Row="0" Width="90" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="DemiBold" Background="#152642" Foreground="#c51f5d">Timestamp Log</Button>
+        </Grid>
+    </Grid>
+</Window>
