@@ -145,7 +145,6 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             
-            <!-- <Button x:Name="Button_Keybind" Grid.Column="1" Grid.Row="1"  Width="90" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="DemiBold" Background="#152642" Foreground="#c51f5d">Set markup key</Button>-->
         </Grid>
     </Grid>
 </Window>
