@@ -8,6 +8,7 @@
         Title="CountDown" Height="450" Width="800"
         Loaded="Window_Loaded"
         ResizeMode="NoResize"
+        x:Name="Countdown_Window"
         >
 
     <Grid Focusable="True" MouseDown="ParentGrid_MouseDown" Loaded="ParentGrid_Loaded" Name="ParentGrid" Background="#141d26">
@@ -92,15 +93,15 @@
                     </TextBlock.BitmapEffect>
                 </TextBlock>
                 <!-- Enable or disable markup settings -->
-                <CheckBox x:Name="chkbx_enableMarkup" IsChecked="False" Foreground="#c51f5d" FontWeight="DemiBold">Enable markups</CheckBox>
+                <CheckBox x:Name="chkbx_enableMarkup" IsChecked="False" Checked="chkbx_enableMarkup_Changed" Unchecked="chkbx_enableMarkup_Changed" Foreground="#c51f5d" FontWeight="DemiBold" Margin="0 1">Enable markups</CheckBox>
                 <!-- Take the users key to capture markups -->
-                <TextBlock FontSize="12" Foreground="#767D92" FontWeight="DemiBold">Keybind
+                <TextBlock FontSize="12" Foreground="#767D92" FontWeight="DemiBold" Margin="0 1">Keybind
                     <TextBlock.BitmapEffect>
                         <DropShadowBitmapEffect Color="Black"/>
                     </TextBlock.BitmapEffect>
                 </TextBlock>
-                <TextBox x:Name="Keybind" Background="LightGray" Foreground="#767D92" Text="HOME" FontWeight="DemiBold" IsReadOnly="True"></TextBox>
-                <Button x:Name="bt_changeKeybind" Margin="0 3" Width="100" Height="20" Background="LightGray" Foreground="#767D92" FontWeight="DemiBold">Change Keybind</Button>
+                <TextBox IsEnabled="False" x:Name="Keybind" Background="#2F4562" Foreground="#767D92" Text="Home" FontWeight="DemiBold" IsReadOnly="True"></TextBox>
+                <Button Click="bt_changeKeybind_Click" IsEnabled="False" x:Name="bt_changeKeybind" Margin="0 3" Width="100" Height="20" Background="#152642" Foreground="#767D92" FontWeight="DemiBold">Change Keybind</Button>
                 <!-- Time Format END -->
             </StackPanel>
             <!-- Formats END-->
@@ -125,7 +126,7 @@
                 <!-- Buttons to intereact with the timer -->
                 <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
 
-                    <Button x:Name="bt_start" Click="Start_Click" Width="90" Background="#152642" Foreground="#767D92" FontWeight="DemiBold" BorderThickness="0" Content="Start/Continue"></Button>
+                    <Button x:Name="bt_start" Click="Start_Click" Width="90" Background="#152642" Foreground="#c51f5d" FontWeight="DemiBold" BorderThickness="0" Content="Start/Continue"></Button>
 
                     <Button x:Name="bt_stop" Click="Stop_Click" Margin="0 2" IsEnabled="False" Background="#152642" Foreground="#767D92">Stop</Button>
                     <Button x:Name="bt_reset" Click="Reset_Click" Background="#152642" Foreground="#767D92" FontWeight="DemiBold" BorderThickness="0">Reset</Button>

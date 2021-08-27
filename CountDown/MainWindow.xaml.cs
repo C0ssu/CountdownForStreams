@@ -1,12 +1,9 @@
 ﻿using System;
-using DColor = System.Drawing.Color;
-using MColor = System.Windows.Media.Color;
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Media;
 using System.Timers;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,9 +53,14 @@ namespace CountDown
         string TimePath = @"txt\Time.txt";
         string MarkupPath = @"txt\Markup.txt";
         string FolderPath = @"txt\";
-        //Input info
+        //Markup variables
+        string markup_Keybind = "Home";
+        bool keybindChange;
         #endregion
         #region InputTextHint
+        //Colors
+        SolidColorBrush col_enabled = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xFF, 0xC5, 0x1F, 0x5D)); //Enabled color
+        
 
         //Code for input text losing and getting focus
         private void InputText_GotFocus(object sender, RoutedEventArgs e)
@@ -335,24 +337,27 @@ namespace CountDown
         //Credits for the keyboard listener goes to Larry57 on github
         //https://gist.github.com/Larry57/5365740 <- Keyboard hook
         //https://gist.github.com/Larry57 <- Larrys profile
+
+        #region Markup
+
         private void Window_Loaded(object sender, RoutedEventArgs e) //When windows is loaded activate the keyboard listener. Also dont allow resizing
         {
             _listener = new LowLevelKeyboardListener();
             _listener.OnKeyPressed += _listener_OnKeyPressed;
-            _listener.HookKeyboard();
         }
 
         public void _listener_OnKeyPressed(object sender, KeyPressedArgs e)
         {
-            if (e.KeyPressed.ToString() == "Home" && timerActive) //If the home button is pressed markup the input. Change this if needed
+            if(keybindChange) // If the keybindchange button has been activated take the next key as the new keybind and return.
             {
-                foreach (Window window in Application.Current.Windows)
-                {
-                    if (window.GetType() == typeof(InputPanel)) //If input panel is open change the text in it to the last timer time the markup was taken
-                    {
-                        (window as InputPanel).LatestInputTime.Text = timeString.ToString();
-                    }
-                }
+                markup_Keybind = e.KeyPressed.ToString();
+                Countdown_Window.IsEnabled = true;
+                Keybind.Text = markup_Keybind; //Change the text box
+                keybindChange = false;
+                return;
+            }
+            if (e.KeyPressed.ToString() == markup_Keybind && timerActive) //If the home button is pressed markup the input
+            {
                 if (Directory.Exists(FolderPath) && File.Exists(MarkupPath)) //Add the markups to a file
                 {
                     File.AppendAllText(MarkupPath, timeString + Environment.NewLine);
@@ -369,11 +374,30 @@ namespace CountDown
             }
         }
 
-        private void Button_InputLog_Click(object sender, RoutedEventArgs e)
+        private void chkbx_enableMarkup_Changed(object sender, RoutedEventArgs e)
         {
-            InputPanel InPa = new InputPanel();
-            InPa.ShowDialog();
+            if(chkbx_enableMarkup.IsChecked == true)
+            {
+                _listener.HookKeyboard(); //Hook the keyboard
+                Keybind.IsEnabled = true;
+                bt_changeKeybind.IsEnabled = true;
+                bt_changeKeybind.Foreground = col_enabled; //Change to the pink enabled color
+            }
+            else
+            {
+                _listener.UnHookKeyboard(); //Stop the keyboard listener
+                Keybind.IsEnabled = false;
+                bt_changeKeybind.IsEnabled = false;
+                bt_changeKeybind.Foreground = new SolidColorBrush(Colors.LightGray); //Change the foreground to light gray
+            }
+        }
+
+        private void bt_changeKeybind_Click(object sender, RoutedEventArgs e)
+        {
+            keybindChange = true;
+            Countdown_Window.IsEnabled = false; //disable the window while waiting for user input
         }
     }
+    #endregion
 }
 
